@@ -1,0 +1,17 @@
+#!/bin/bash
+
+(
+  while true
+  do
+    output=`ping -c 5 -q www.google.com 2>&1`
+    # output=`ping -c 5 -q 1.2.3.4 2>&1` # for testing
+
+    if [[ $output =~ "100.0% packet loss" ]] || [[ $output =~ "Unknown host" ]]
+    then
+      osascript -e 'display notification "Network down" with title "Pingful Alert"'
+    fi
+
+    sleep 30
+  done
+) &
+disown
